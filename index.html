@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Mother!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .timeline-container {
+            width: 100%;
+            height: 100vh;
+            max-width: 1200px;
+            max-height: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 25px 40px 15px;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.9);
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-content {
+            padding: 30px 40px 20px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            align-items: center;
+            height: 100%;
+            max-height: 450px;
+            justify-content: center;
+        }
+
+        .photo-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .photo-container {
+            width: 100%;
+            max-width: 700px;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .photo-placeholder {
+            font-size: 1.1em;
+            color: #888;
+            text-align: center;
+        }
+
+        .photo-placeholder::before {
+            content: '📷';
+            font-size: 4em;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.3;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .memory-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .memory-card {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            padding: 15px 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .memory-card::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            bottom: 15px;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 18px,
+                    rgba(255, 182, 193, 0.15) 19px,
+                    rgba(255, 182, 193, 0.15) 20px
+                ),
+                linear-gradient(0deg, 
+                    rgba(255, 255, 255, 0.9) 0%, 
+                    rgba(255, 255, 255, 0.95) 100%
+                );
+            border-radius: 10px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            z-index: 1;
+        }
+
+        .memory-card::after {
+            content: '';
+            position: absolute;
+            top: 35px;
+            left: 45px;
+            width: 2px;
+            height: calc(100% - 70px);
+            background: rgba(255, 182, 193, 0.3);
+            z-index: 1;
+        }
+
+        .memory-content {
+            position: relative;
+            z-index: 2;
+            padding-left: 30px;
+            width: 100%;
+        }
+
+        .memory-title {
+            font-size: 1.5em;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .memory-text {
+            font-size: 1.1em;
+            line-height: 1.3;
+            color: #444;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .hearts {
+            font-size: 1.2em;
+            animation: pulse 2s infinite;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            flex-shrink: 0;
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .nav-button:disabled:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-counter {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            color: #666;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Sparkle animations */
+        @keyframes sparkleFloat {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-100px) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container {
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            .timeline-content {
+                padding: 30px 20px;
+            }
+            
+            .photo-container {
+                height: 270px;
+                max-width: 500px;
+            }
+            
+            .memory-card {
+                padding: 15px 20px;
+                max-width: 500px;
+                min-height: 60px;
+            }
+            
+            .memory-content {
+                padding-left: 20px;
+            }
+            
+            .memory-text {
+                font-size: 1em;
+            }
+            
+            .nav-button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .navigation {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <header class="header">
+            <h1>Happy Birthday Mother! 🎉</h1>
+            <p>A journey through our beautiful memories together</p>
+        </header>
+
+        <div class="timeline-content">
+            <div class="main-content">
+                <div class="photo-display">
+                    <div class="photo-container" id="photoContainer">
+                        <div class="photo-placeholder">
+                            <span>Add your favorite photo here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="memory-section">
+                    <div class="memory-card">
+                        <div class="memory-content">
+                            <h2 class="memory-title">💕 <span id="memoryTitle">Our Family Adventure</span> 💕</h2>
+                            <p class="memory-text" id="memoryText">Remember that amazing day we spent together? Your smile made it perfect.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" id="prevBtn" onclick="previousMemory()">
+                    ← Previous
+                </button>
+                
+                <div class="timeline-counter">
+                    <span id="currentIndex">1</span> of <span id="totalMemories">6</span>
+                </div>
+                
+                <button class="nav-button" id="nextBtn" onclick="nextMemory()">
+                    Next →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Memory data - you can customize these
+        const memories = [
+            {
+                title: "Memories",
+                text: "All the past memories with you :D",
+                photo: "photos/heart.png"
+            },
+            {
+                title: "I don't remember where this is anymore...",
+                text: "Mother had such long hair back then",
+                photo: "photos/father.jpg"
+            },
+            {
+                title: "We took selfies in the car!",
+                text: "I can see the phone through your sunglasses LOL",
+                photo: "photos/car.jpg"
+            },
+            {
+                title: "It's Ainsley!",
+                text: "We were so tiny. You still had such long hair...",
+                photo: "photos/ainsley.jpg"
+            },
+            {
+                title: "Bed selfie :D",
+                text: "I don't remeber when this was either...",
+                photo: "photos/tiny.jpg"
+            },
+            {
+                title: "The Toronto Duck",
+                text: "I remember this one! Father really wanted to take us to see that duck.",
+                photo: "photos/duck.jpg"
+            },
+            {
+                title: "Disney World!",
+                text: "We had so much fun at Disney World.",
+                photo: "photos/disney.jpg"
+            },
+            {
+                title: "This was a Trip",
+                text: "I'll be honest I don't remember this trip. I know we had a fun time though!",
+                photo: "photos/trip.jpg"
+            },
+            {
+                title: "We saw sunflowers!",
+                text: "I still had braces back then. I don't remember but I loved all our trips!",
+                photo: "photos/sunflowers.jpg"
+            },
+            {
+                title: "Christmas",
+                text: "We were matching hoodies :D",
+                photo: "photos/christmas.jpg"
+            },
+            {
+                title: "New Years in the Car!",
+                text: "That was a very eventful new year! We couldn't leave the car LOL",
+                photo: "photos/newyear.jpg"
+            },
+            {
+                title: "Our Greatest Blessing",
+                text: "Having you as my mom is the greatest gift. Here's to many more years together!",
+                photo: "photos/noodle.jpg"
+            }
+        ];
+
+        let currentMemoryIndex = 0;
+
+        function updateDisplay() {
+            const memory = memories[currentMemoryIndex];
+            
+            // Update text content
+            document.getElementById('memoryTitle').textContent = memory.title;
+            document.getElementById('memoryText').textContent = memory.text;
+            
+            // Update photo
+            const photoContainer = document.getElementById('photoContainer');
+            if (memory.photo) {
+                photoContainer.innerHTML = `<img src="${memory.photo}" alt="${memory.title}">`;
+            } else {
+                photoContainer.innerHTML = `
+                    <div class="photo-placeholder">
+                        <span>Add your photo #${currentMemoryIndex + 1} here</span>
+                    </div>
+                `;
+            }
+            
+            // Update counter
+            document.getElementById('currentIndex').textContent = currentMemoryIndex + 1;
+            document.getElementById('totalMemories').textContent = memories.length;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = (currentMemoryIndex === 0);
+            document.getElementById('nextBtn').disabled = (currentMemoryIndex === memories.length - 1);
+        }
+
+        function nextMemory() {
+            if (currentMemoryIndex < memories.length - 1) {
+                currentMemoryIndex++;
+                updateDisplay();
+                createSparkle();
+            }
+        }
+
+        function previousMemory() {
+            if (currentMemoryIndex > 0) {
+                currentMemoryIndex--;
+                updateDisplay();
+                createSparkle();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextMemory();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousMemory();
+            }
+        });
+
+        // Sparkle effect
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.fontSize = Math.random() * 20 + 10 + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '999';
+            sparkle.style.animation = 'sparkleFloat 3s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+
+        // Create sparkles occasionally
+        setInterval(createSparkle, 3000);
+
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>
